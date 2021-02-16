@@ -26,7 +26,8 @@ class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
             // We are assigning a new value to the DATA
             field = value
 
-            // We are asking RecyclerView to REDRAW the list with the NEW DATA.
+            // We are asking RecyclerView to REDRAW the complete list with the NEW DATA.
+            // Note: We will improve this feature later on, so only update row will be redrawn
             notifyDataSetChanged()
         }
 
