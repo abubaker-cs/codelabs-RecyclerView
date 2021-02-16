@@ -20,8 +20,13 @@ class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
     // We are creating a LIST to hold the DATA
     var data = listOf<SleepNight>()
+
+        // By using setter we are informing the RecyclerView that the data it is showing has been updated.
         set(value) {
+            // We are assigning a new value to the DATA
             field = value
+
+            // We are asking RecyclerView to REDRAW the list with the NEW DATA.
             notifyDataSetChanged()
         }
 
@@ -63,4 +68,5 @@ class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
         return TextItemViewHolder(view)
 
     }
+
 }
