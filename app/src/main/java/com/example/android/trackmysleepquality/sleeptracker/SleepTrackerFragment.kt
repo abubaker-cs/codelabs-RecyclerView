@@ -60,6 +60,12 @@ class SleepTrackerFragment : Fragment() {
         val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
         val viewModelFactory = SleepTrackerViewModelFactory(dataSource, application)
 
+        // We are informing RecyclerView to use our custom Adapter, so it can get ViewHolders
+        val adapter = SleepNightAdapter()
+
+        // We are now associating Adapter to the RecyclerView
+        binding.sleepList.adapter = adapter
+
         // Get a reference to the ViewModel associated with this fragment.
         val sleepTrackerViewModel =
                 ViewModelProvider(
@@ -72,6 +78,13 @@ class SleepTrackerFragment : Fragment() {
         // Specify the current activity as the lifecycle owner of the binding.
         // This is necessary so that the binding can observe LiveData updates.
         binding.lifecycleOwner = this
+
+        // Observer: So data can be shown on the screen
+        sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.data = it
+            }
+        })
 
         // Add an Observer on the state variable for showing a Snackbar message
         // when the CLEAR button is pressed.
@@ -106,6 +119,7 @@ class SleepTrackerFragment : Fragment() {
                 sleepTrackerViewModel.doneNavigating()
             }
         })
+
         return binding.root
     }
 }
