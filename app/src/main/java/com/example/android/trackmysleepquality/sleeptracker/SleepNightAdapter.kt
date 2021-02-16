@@ -1,5 +1,7 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -20,7 +22,6 @@ class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
 
     // We are creating a LIST to hold the DATA
     var data = listOf<SleepNight>()
-
         // By using setter we are informing the RecyclerView that the data it is showing has been updated.
         set(value) {
             // We are assigning a new value to the DATA
@@ -45,6 +46,14 @@ class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
         // Since our ViewHolder, i.e. text_item_view.xml file contains a <TextView>, thus
         // we will use it to display our data: sleepQuality
         holder.textView.text = item.sleepQuality.toString()
+
+        if (item.sleepQuality <= 1) {
+            // Assign new color
+            holder.textView.setTextColor(Color.RED)
+        } else {
+            // RESET
+            holder.textView.setTextColor(Color.BLACK)
+        }
 
     }
 
