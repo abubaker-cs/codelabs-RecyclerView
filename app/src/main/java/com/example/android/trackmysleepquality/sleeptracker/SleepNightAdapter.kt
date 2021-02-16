@@ -47,11 +47,14 @@ class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
         // we will use it to display our data: sleepQuality
         holder.textView.text = item.sleepQuality.toString()
 
+
+        // RecyclerView recyclers / reuses view holders.
+        // In other words, it reuses the view for the item that is about to scroll on the screen.
         if (item.sleepQuality <= 1) {
-            // Assign new color
+            // SET: Custom Color
             holder.textView.setTextColor(Color.RED)
         } else {
-            // RESET
+            // RESET: Default Color
             holder.textView.setTextColor(Color.BLACK)
         }
 
