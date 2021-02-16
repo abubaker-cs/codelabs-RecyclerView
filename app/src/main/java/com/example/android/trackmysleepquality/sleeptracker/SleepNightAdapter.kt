@@ -3,7 +3,9 @@ package com.example.android.trackmysleepquality.sleeptracker
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.R
@@ -16,9 +18,17 @@ import com.example.android.trackmysleepquality.database.SleepNight
  * The Adapter creates a ViewHolder and FILLS it with data for the RecyclerView to Display.
  */
 
+// It will contain references to all UI Elements inside @res/layout/list_item_sleep_night.xml file
+// These references will be used SleepNightAdapter
+class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
+    val quality: TextView = itemView.findViewById(R.id.quality_string)
+    val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+}
+
 // We will extend our class with : RecyclerView.Adapter<***>()
 // *** Define which view holder to use
-class SleepNightAdapter : RecyclerView.Adapter<TextItemViewHolder>() {
+class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
 
     // We are creating a LIST to hold the DATA
     var data = listOf<SleepNight>()
