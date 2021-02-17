@@ -57,6 +57,7 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
         // 3. RecyclerView automatically adds our item to the hierarchy, so there is no need for us to use attachToRoot
         // *-* replaced .text_item_view to _text_item_sleep_night.xml file
         // *-* removed casting: as TextView since we are inflating a constraintLayout
+        // *-* Warning: If we will not remove the casting "as TextView" then the app will crash!
         val view = layoutInflater
                 .inflate(R.layout.list_item_sleep_night, parent, false)
 
