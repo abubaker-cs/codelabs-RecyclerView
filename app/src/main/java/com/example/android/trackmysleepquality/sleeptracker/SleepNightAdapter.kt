@@ -22,8 +22,7 @@ import com.example.android.trackmysleepquality.database.SleepNight
 
 
 // We will extend our class with : RecyclerView.Adapter<***>()
-// *** Define which view holder to use
-// *-* replaced: TextItemViewHolder with SleepNightAdapter.ViewHolder
+// And use SleepNightAdapter.ViewHolder so it can use our NESTED ViewHolder
 class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
 
     // We are creating a LIST to hold the DATA
@@ -45,19 +44,15 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
     // It returns a ViewHolder based on two parameters:
     // 1. parent: RecyclerView itself
     // 2. viewType: It is used when there are multiple views in the SAME recyclerView, i.e. an image, text views and video
-    // *_* replaced = TextItemViewHolder with ViewHolder
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         // 1. layoutInflater knows HOW to create views from XML files.
         // 2. In our situation, context = RecyclerView itself.
         val layoutInflater = LayoutInflater.from(parent.context)
 
-        // 1. Reference to our text_item_view.xml FILE.
+        // 1. Reference to our list_item_sleep_night.xml FILE.
         // 2. Parent = ViewGroup = RecyclerView itself.
         // 3. RecyclerView automatically adds our item to the hierarchy, so there is no need for us to use attachToRoot
-        // *-* replaced .text_item_view to _text_item_sleep_night.xml file
-        // *-* removed casting: as TextView since we are inflating a constraintLayout
-        // *-* Warning: If we will not remove the casting "as TextView" then the app will crash!
         val view = layoutInflater
                 .inflate(R.layout.list_item_sleep_night, parent, false)
 
@@ -70,12 +65,12 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
 
     // onBindViewHolder() is used to create a single instance of a ROW
     // It requires the VIEW in which data will be PLACED, and the POSITION of ROW from INCOMING data
-    // *-* replaced TextItemViewHolder with
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         // Actual POSITION of the ROW in the INCOMING data
         val item = data[position]
 
+        // Reference to all resources in our ViewHolder
         val res = holder.itemView.context.resources
 
         // Converting text for Sleep Length
@@ -96,27 +91,10 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
             else -> R.drawable.ic_sleep_active
         })
 
-        // Since our ViewHolder, i.e. text_item_view.xml file contains a <TextView>, thus
-        // we will use it to display our data: sleepQuality
-        // holder.textView.text = item.sleepQuality.toString()
-
-
-        // RecyclerView recyclers / reuses view holders.
-        // In other words, it reuses the view for the item that is about to scroll on the screen.
-        // if (item.sleepQuality <= 1) {
-        // SET: Custom Color
-        // holder.textView.setTextColor(Color.RED)
-        // } else {
-        // RESET: Default Color
-        // holder.textView.setTextColor(Color.BLACK)
-        // }
-
     }
 
-
     // It will contain references to all UI Elements inside @res/layout/list_item_sleep_night.xml file
-    // These references will be used SleepNightAdapter
-    class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
         val quality: TextView = itemView.findViewById(R.id.quality_string)
         val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)

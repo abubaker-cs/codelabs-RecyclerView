@@ -26,13 +26,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.database.SleepNight
 import java.text.SimpleDateFormat
 import java.util.*
-
 import java.util.concurrent.TimeUnit
-
 
 private val ONE_MINUTE_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.MINUTES)
 private val ONE_HOUR_MILLIS = TimeUnit.MILLISECONDS.convert(1, TimeUnit.HOURS)
 
+/**
+ * These functions create a formatted string that can be set in a TextView.
+ */
 fun convertDurationToFormatted(startTimeMilli: Long, endTimeMilli: Long, res: Resources): String {
     val durationMilli = endTimeMilli - startTimeMilli
     val weekdayString = SimpleDateFormat("EEEE", Locale.getDefault()).format(startTimeMilli)
@@ -51,11 +52,6 @@ fun convertDurationToFormatted(startTimeMilli: Long, endTimeMilli: Long, res: Re
         }
     }
 }
-
-
-/**
- * These functions create a formatted string that can be set in a TextView.
- */
 
 /**
  * Returns a string representing the numeric quality rating.
