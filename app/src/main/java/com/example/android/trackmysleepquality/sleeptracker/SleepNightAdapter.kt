@@ -46,20 +46,7 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
     // 2. viewType: It is used when there are multiple views in the SAME recyclerView, i.e. an image, text views and video
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        // 1. layoutInflater knows HOW to create views from XML files.
-        // 2. In our situation, context = RecyclerView itself.
-        val layoutInflater = LayoutInflater.from(parent.context)
-
-        // 1. Reference to our list_item_sleep_night.xml FILE.
-        // 2. Parent = ViewGroup = RecyclerView itself.
-        // 3. RecyclerView automatically adds our item to the hierarchy, so there is no need for us to use attachToRoot
-        val view = layoutInflater
-                .inflate(R.layout.list_item_sleep_night, parent, false)
-
-        // It will return view based on our custom class: TextItemViewHolder
-        // Please refer to our temporary ViewHolder class in Util.kt file
-        // *-* replaced: return TextItemViewHolder(view) with return ViewHolder(view)
-        return ViewHolder(view)
+        return Companion.from(parent)
 
     }
 
@@ -98,6 +85,23 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
         val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
         val quality: TextView = itemView.findViewById(R.id.quality_string)
         val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+
+        companion object {
+            fun from(parent: ViewGroup): ViewHolder {
+                // 1. layoutInflater knows HOW to create views from XML files.
+                // 2. In our situation, context = RecyclerView itself.
+                // 3. Reference to our list_item_sleep_night.xml FILE.
+                // 4. Parent = ViewGroup = RecyclerView itself.
+                // 5. RecyclerView automatically adds our item to the hierarchy, so there is no need for us to use attachToRoot
+                val view = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.list_item_sleep_night, parent, false)
+
+                // It will return view based on our custom class: TextItemViewHolder
+                // Please refer to our temporary ViewHolder class in Util.kt file
+                // *-* replaced: return TextItemViewHolder(view) with return ViewHolder(view)
+                return ViewHolder(view)
+            }
+        }
     }
 
 }
