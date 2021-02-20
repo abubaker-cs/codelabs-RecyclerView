@@ -82,7 +82,8 @@ class SleepTrackerFragment : Fragment() {
         // Observer: So data can be shown on the screen
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.data = it
+                // adapter.data = it
+                adapter.submitList(it)
             }
         })
 
