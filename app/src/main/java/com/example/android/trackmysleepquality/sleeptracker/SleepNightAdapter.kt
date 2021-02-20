@@ -1,11 +1,7 @@
 package com.example.android.trackmysleepquality.sleeptracker
 
-import android.content.res.Resources
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +9,7 @@ import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.convertDurationToFormatted
 import com.example.android.trackmysleepquality.convertNumericQualityToString
 import com.example.android.trackmysleepquality.database.SleepNight
+import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
 
 /**
  * Important: The "core task" in implementing a RecyclerView is creating the Adapter.
@@ -47,10 +44,7 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
     }
 
     // It will contain references to all UI Elements inside @res/layout/list_item_sleep_night.xml file
-    class ViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val sleepLength: TextView = itemView.findViewById(R.id.sleep_length)
-        val quality: TextView = itemView.findViewById(R.id.quality_string)
-        val qualityImage: ImageView = itemView.findViewById(R.id.quality_image)
+    class ViewHolder private constructor(val binding: ListItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root) {
 
         // * onBindViewHolder
         fun bind(item: SleepNight) {
@@ -61,13 +55,13 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
 
             // Converting text for Sleep Length
             // Note, we have conversion function inside the Util.kt file
-            sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
+            binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
 
             // Quality
-            quality.text = convertNumericQualityToString(item.sleepQuality, res)
+            binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
 
             // Image
-            qualityImage.setImageResource(when (item.sleepQuality) {
+            binding.qualityImage.setImageResource(when (item.sleepQuality) {
                 0 -> R.drawable.ic_sleep_0
                 1 -> R.drawable.ic_sleep_1
                 2 -> R.drawable.ic_sleep_2
@@ -86,13 +80,17 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
                 // 3. Reference to our list_item_sleep_night.xml FILE.
                 // 4. Parent = ViewGroup = RecyclerView itself.
                 // 5. RecyclerView automatically adds our item to the hierarchy, so there is no need for us to use attachToRoot
-                val view = LayoutInflater.from(parent.context)
-                        .inflate(R.layout.list_item_sleep_night, parent, false)
+                // val view = LayoutInflater.from(parent.context) .inflate(R.layout.list_item_sleep_night, parent, false)
+
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ListItemSleepNightBinding.inflate(layoutInflater, parent, false)
 
                 // It will return view based on our custom class: TextItemViewHolder
                 // Please refer to our temporary ViewHolder class in Util.kt file
                 // *-* replaced: return TextItemViewHolder(view) with return ViewHolder(view)
-                return ViewHolder(view)
+                // return ViewHolder(view)
+
+                return ViewHolder(binding)
             }
         }
     }
