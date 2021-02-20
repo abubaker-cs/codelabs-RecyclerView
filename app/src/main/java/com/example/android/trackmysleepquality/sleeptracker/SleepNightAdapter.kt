@@ -45,7 +45,11 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
         // * onBindViewHolder
         fun bind(item: SleepNight) {
 
+            // We need to tell the binding object about our new SleepNight record.
             binding.sleep = item
+
+            // Speed optimization: We are asking to execute any pending bindings right now.
+            // It is a best practice to use this feature as it can slightly speed up sizing the views.
             binding.executePendingBindings()
 
             // We are moving the link to references inside the bind() function
