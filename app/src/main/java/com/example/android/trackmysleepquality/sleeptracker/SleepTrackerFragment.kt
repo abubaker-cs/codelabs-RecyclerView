@@ -83,8 +83,8 @@ class SleepTrackerFragment : Fragment() {
         sleepTrackerViewModel.nights.observe(viewLifecycleOwner, Observer {
             it?.let {
                 // To update the list, we will use RecyclerView's API and rely on submitList()
-                // It will run the DiffUtil to detect any changes in the data
-                // and apply all necessary changes on the RecyclerView
+                // It will run the DiffUtil and apply any necessary changes
+                // Then ListAdapter will update the items shown by RecyclerView
                 adapter.submitList(it)
             }
         })
