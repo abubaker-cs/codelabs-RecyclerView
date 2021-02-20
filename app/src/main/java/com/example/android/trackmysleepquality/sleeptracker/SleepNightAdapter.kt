@@ -5,9 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.trackmysleepquality.R
-import com.example.android.trackmysleepquality.convertDurationToFormatted
-import com.example.android.trackmysleepquality.convertNumericQualityToString
 import com.example.android.trackmysleepquality.database.SleepNight
 import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBinding
 
@@ -16,7 +13,6 @@ import com.example.android.trackmysleepquality.databinding.ListItemSleepNightBin
  *
  * The Adapter creates a ViewHolder and FILLS it with data for the RecyclerView to Display.
  */
-
 
 // We will extend our class with : RecyclerView.Adapter<***>()
 // And use SleepNightAdapter.ViewHolder so it can use our NESTED ViewHolder
@@ -49,27 +45,32 @@ class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(
         // * onBindViewHolder
         fun bind(item: SleepNight) {
 
+            binding.sleep = item
+            binding.executePendingBindings()
+
             // We are moving the link to references inside the bind() function
             // Reference to all resources in our ViewHolder
-            val res = itemView.context.resources
+            // val res = itemView.context.resources
 
             // Converting text for Sleep Length
             // Note, we have conversion function inside the Util.kt file
-            binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
+            // binding.sleepLength.text = convertDurationToFormatted(item.startTimeMilli, item.endTimeMilli, res)
 
             // Quality
-            binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
+            // binding.qualityString.text = convertNumericQualityToString(item.sleepQuality, res)
 
             // Image
-            binding.qualityImage.setImageResource(when (item.sleepQuality) {
-                0 -> R.drawable.ic_sleep_0
-                1 -> R.drawable.ic_sleep_1
-                2 -> R.drawable.ic_sleep_2
-                3 -> R.drawable.ic_sleep_3
-                4 -> R.drawable.ic_sleep_4
-                5 -> R.drawable.ic_sleep_5
-                else -> R.drawable.ic_sleep_active
-            })
+            // binding.qualityImage.setImageResource(when (item.sleepQuality) {
+            //    0 -> R.drawable.ic_sleep_0
+            //    1 -> R.drawable.ic_sleep_1
+            //    2 -> R.drawable.ic_sleep_2
+            //    3 -> R.drawable.ic_sleep_3
+            //    4 -> R.drawable.ic_sleep_4
+            //    5 -> R.drawable.ic_sleep_5
+            //    else -> R.drawable.ic_sleep_active
+            // })
+
+
         }
 
         // * onCreateViewHolder
