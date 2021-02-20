@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.trackmysleepquality.R
 import com.example.android.trackmysleepquality.convertDurationToFormatted
@@ -21,22 +23,8 @@ import com.example.android.trackmysleepquality.database.SleepNight
 
 // We will extend our class with : RecyclerView.Adapter<***>()
 // And use SleepNightAdapter.ViewHolder so it can use our NESTED ViewHolder
-class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
-
-    // We are creating a LIST to hold the DATA
-    var data = listOf<SleepNight>()
-        // By using setter we are informing the RecyclerView that the data it is showing has been updated.
-        set(value) {
-            // We are assigning a new value to the DATA
-            field = value
-
-            // We are asking RecyclerView to REDRAW the complete list with the NEW DATA.
-            // Note: We will improve this feature later on, so only update row will be redrawn
-            notifyDataSetChanged()
-        }
-
-    // Total number of ROWS for the RecyclerView to display
-    override fun getItemCount() = data.size
+// class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
+class SleepNightAdapter : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
 
     // onCreateViewHolder() is called when a RecyclerView needs a ViewHolder
     // It returns a ViewHolder based on two parameters:
@@ -53,7 +41,7 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         // Actual POSITION of the ROW in the INCOMING data
-        val item = data[position]
+        val item = getItem(position)
         holder.bind(item)
 
     }
@@ -107,6 +95,29 @@ class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
                 return ViewHolder(view)
             }
         }
+    }
+
+}
+
+// This top-level class extends DiffUtil.ItemCallback<>()
+// We are using SleepNight as a generic parameter
+class SleepNightDiffCallback : DiffUtil.ItemCallback<SleepNight>() {
+
+    // DiffUtils uses these two methods to figure out how the list and items have changed.
+
+    // Change in: List of Items?
+    override fun areItemsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+
+        // Returns TRUE if they items have same nightId
+        // This step is used to identify if an item was (1) added (2) removed or (3) moved
+        return oldItem.nightId == newItem.nightId
+    }
+
+    // Change in: Content?
+    override fun areContentsTheSame(oldItem: SleepNight, newItem: SleepNight): Boolean {
+
+        // If there are difference between fields, then it means that the content was updated
+        return oldItem == newItem
     }
 
 }
