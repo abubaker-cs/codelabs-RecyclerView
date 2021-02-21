@@ -48,7 +48,7 @@ class SleepDetailViewModel(
 
 
     init {
-        night=database.getNightWithId(sleepNightKey)
+        night = database.getNightWithId(sleepNightKey)
     }
 
     /**

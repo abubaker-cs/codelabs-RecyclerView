@@ -22,6 +22,7 @@
  the whole ViewModel, so that we can access the LiveData,
  click handlers, and state variables. -->
     <data>
+
         <variable
             name="sleepDetailViewModel"
             type="com.example.android.trackmysleepquality.sleepdetail.SleepDetailViewModel" />
@@ -32,6 +33,7 @@
         android:layout_height="match_parent"
         tools:context=".sleepdetail.SleepDetailFragment">
 
+        <!-- Icon -->
         <ImageView
             android:id="@+id/quality_image"
             android:layout_width="@dimen/icon_size"
@@ -39,11 +41,12 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="56dp"
             android:layout_marginEnd="8dp"
-            app:sleepImage="@{sleepDetailViewModel.night}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:sleepImage="@{sleepDetailViewModel.night}" />
 
+        <!-- Sleep Quality -->
         <TextView
             android:id="@+id/quality_string"
             android:layout_width="wrap_content"
@@ -56,6 +59,7 @@
             app:layout_constraintTop_toBottomOf="@+id/quality_image"
             app:sleepQualityString="@{sleepDetailViewModel.night}" />
 
+        <!-- Sleep Length -->
         <TextView
             android:id="@+id/sleep_length"
             android:layout_width="wrap_content"
@@ -68,6 +72,7 @@
             app:layout_constraintTop_toBottomOf="@+id/quality_string"
             app:sleepDurationFormatted="@{sleepDetailViewModel.night}" />
 
+        <!-- Button: Close -->
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
