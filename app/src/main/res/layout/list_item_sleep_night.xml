@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Icon -->
         <ImageView
             android:id="@+id/quality_image"
             android:layout_width="@dimen/icon_size"
@@ -28,6 +29,7 @@
             tools:srcCompat="@drawable/ic_sleep_5"
             app:sleepImage="@{sleep}"/>
 
+        <!-- Quality String -->
         <TextView
             android:id="@+id/quality_string"
             android:layout_width="0dp"

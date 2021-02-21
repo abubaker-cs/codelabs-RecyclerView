@@ -124,9 +124,10 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
-        // Defining total columns for our GridLayout
+        // Implementing GridLayout with 3 Columns
         val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
 
+        // Bind the new layout manager to our list.
         binding.sleepList.layoutManager = manager
 
         return binding.root
