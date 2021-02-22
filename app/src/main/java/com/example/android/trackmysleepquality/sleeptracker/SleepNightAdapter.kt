@@ -35,7 +35,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Sle
 
         // Actual POSITION of the ROW in the INCOMING data
         val item = getItem(position)
-        holder.bind(item, clickListener)
+        holder.bind(item!!, clickListener)
 
     }
 

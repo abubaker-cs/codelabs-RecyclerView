@@ -33,6 +33,9 @@
             app:destination="@id/sleep_quality_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:popEnterAnim="@anim/slide_in_right" />
+        <action
+            android:id="@+id/action_sleep_tracker_fragment_to_sleep_detail_fragment"
+            app:destination="@id/sleep_detail_fragment" />
     </fragment>
 
     <fragment

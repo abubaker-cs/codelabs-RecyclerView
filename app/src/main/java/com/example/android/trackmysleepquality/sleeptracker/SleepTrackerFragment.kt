@@ -58,23 +58,33 @@ class SleepTrackerFragment : Fragment() {
 
         val application = requireNotNull(this.activity).application
 
+        // Implementing GridLayout with 3 Columns & Binding the new layout manager to our list.
+        val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
+        binding.sleepList.layoutManager = manager
+
         // Create an instance of the ViewModel Factory.
         val dataSource = SleepDatabase.getInstance(application).sleepDatabaseDao
         val viewModelFactory = SleepTrackerViewModelFactory(dataSource, application)
 
-        // We are informing RecyclerView to use our custom Adapter, so it can get ViewHolders
-        // val adapter = SleepNightAdapter()
-        val adapter = SleepNightAdapter(SleepNightListener { nightId ->
-            Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
-        })
-
-        // We are now associating Adapter to the RecyclerView
-        binding.sleepList.adapter = adapter
 
         // Get a reference to the ViewModel associated with this fragment.
         val sleepTrackerViewModel =
                 ViewModelProvider(
                         this, viewModelFactory).get(SleepTrackerViewModel::class.java)
+
+        // We are informing RecyclerView to use our custom Adapter, so it can get ViewHolders
+        // val adapter = SleepNightAdapter()
+        val adapter = SleepNightAdapter(SleepNightListener { nightId ->
+
+            sleepTrackerViewModel.onSleepNightClicked(nightId)
+
+            // Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
+        })
+
+
+        // We are now associating Adapter to the RecyclerView
+        binding.sleepList.adapter = adapter
+
 
         // To use the View Model with data binding, you have to explicitly
         // give the binding object a reference to it.
@@ -128,11 +138,14 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
-        // Implementing GridLayout with 3 Columns
-        val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
+        sleepTrackerViewModel.navigateToSleepDetailQuality.observe(viewLifecycleOwner, Observer { night ->
+            night?.let {
+                this.findNavController().navigate(SleepTrackerFragmentDirections
+                        .actionSleepTrackerFragmentToSleepDetailFragment(night))
+                sleepTrackerViewModel.onSleepDataQualityNavigated()
+            }
+        })
 
-        // Bind the new layout manager to our list.
-        binding.sleepList.layoutManager = manager
 
         return binding.root
     }

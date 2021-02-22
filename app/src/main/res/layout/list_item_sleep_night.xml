@@ -5,16 +5,22 @@
 
     <data>
 
+        <!-- sleep -->
         <variable
             name="sleep"
             type="com.example.android.trackmysleepquality.database.SleepNight" />
 
+        <!-- clickListener -->
         <variable
             name="clickListener"
             type="com.example.android.trackmysleepquality.sleeptracker.SleepNightListener" />
 
     </data>
 
+    <!--
+        This will bind the click and pass the selected sleep object to the clickListener
+        each time the user clicks from the RecyclerView
+    -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
