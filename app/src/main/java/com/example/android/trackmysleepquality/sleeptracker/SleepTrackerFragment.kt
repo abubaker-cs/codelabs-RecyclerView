@@ -79,7 +79,7 @@ class SleepTrackerFragment : Fragment() {
         // val adapter = SleepNightAdapter()
         val adapter = SleepNightAdapter(SleepNightListener { nightId ->
 
-            //
+            // Update the value for _navigateToSleepDetail in SleepTrackerViewModel.kt file
             sleepTrackerViewModel.onSleepNightClicked(nightId)
 
             // Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
@@ -147,16 +147,19 @@ class SleepTrackerFragment : Fragment() {
         })
 
         /**
-         *
+         * Observer: val navigateToSleepDetail
+         * Navigate to the Detail Fragment. This code is OBSERVING changes in our
+         * navigateToSleepDetail variable defined in the SleepTrackerViewModel.kt file
          */
-        sleepTrackerViewModel.navigateToSleepDetailQuality.observe(viewLifecycleOwner, Observer { night ->
+        sleepTrackerViewModel.navigateToSleepDetail.observe(viewLifecycleOwner, Observer { night ->
             night?.let {
 
-
+                // Using @navGraph is lets the user navigate to the specified fragment
                 this.findNavController().navigate(SleepTrackerFragmentDirections
                         .actionSleepTrackerFragmentToSleepDetailFragment(night))
 
-
+                // Reset the value of _navigateToSleepDetail = null
+                // this function is defined in the SleepTrackerViewModel.kt file
                 sleepTrackerViewModel.onSleepDataQualityNavigated()
             }
         })

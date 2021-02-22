@@ -34,6 +34,7 @@ class SleepTrackerViewModel(
         dataSource: SleepDatabaseDao,
         application: Application) : ViewModel() {
 
+
     /**
      * Hold a reference to SleepDatabase via SleepDatabaseDao.
      */
@@ -45,6 +46,7 @@ class SleepTrackerViewModel(
     // Because we will create an observer that needs to access this variable.
     val nights = database.getAllNights()
 
+
     /**
      * Converted nights to Spanned for displaying.
      */
@@ -52,12 +54,14 @@ class SleepTrackerViewModel(
         formatNights(nights, application.resources)
     }
 
+
     /**
      * If tonight has not been set, then the START button should be visible.
      */
     val startButtonVisible = Transformations.map(tonight) {
         null == it
     }
+
 
     /**
      * If tonight has been set, then the STOP button should be visible.
@@ -208,17 +212,24 @@ class SleepTrackerViewModel(
     }
 
     // Enscuplation
-    private val _navigateToSleepDetailQuality = MutableLiveData<Long>()
-    val navigateToSleepDetailQuality
-        get() = _navigateToSleepDetailQuality
+    private val _navigateToSleepDetail = MutableLiveData<Long>()
+    val navigateToSleepDetail
+        get() = _navigateToSleepDetail
 
+    /**
+     * Clicked - Allow to Navigate to another Fragment
+     */
     fun onSleepNightClicked(id: Long) {
-        _navigateToSleepDetailQuality.value = id
+        // Assign value to navigate to the detail fragment
+        _navigateToSleepDetail.value = id
     }
 
+    /**
+     * Navigated - Reset value to null
+     */
     fun onSleepDataQualityNavigated() {
-        // Null because navigation is done
-        _navigateToSleepDetailQuality.value = null
+        // Reset - Null because navigation is done
+        _navigateToSleepDetail.value = null
     }
 
 
