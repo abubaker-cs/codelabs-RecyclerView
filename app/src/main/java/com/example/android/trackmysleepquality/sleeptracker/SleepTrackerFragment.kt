@@ -72,10 +72,14 @@ class SleepTrackerFragment : Fragment() {
                 ViewModelProvider(
                         this, viewModelFactory).get(SleepTrackerViewModel::class.java)
 
+        /**
+         * Decides what to do when a user clicks on an existing icon (singel item inside the grid)
+         */
         // We are informing RecyclerView to use our custom Adapter, so it can get ViewHolders
         // val adapter = SleepNightAdapter()
         val adapter = SleepNightAdapter(SleepNightListener { nightId ->
 
+            //
             sleepTrackerViewModel.onSleepNightClicked(nightId)
 
             // Toast.makeText(context, "${nightId}", Toast.LENGTH_LONG).show()
@@ -119,6 +123,10 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
+        /**
+         * Page: Quality
+         * Allows user to answer the quality of his sleep from range 0-5
+         */
         // Add an Observer on the state variable for Navigating when STOP button is pressed.
         sleepTrackerViewModel.navigateToSleepQuality.observe(viewLifecycleOwner, Observer { night ->
             night?.let {
@@ -138,10 +146,17 @@ class SleepTrackerFragment : Fragment() {
             }
         })
 
+        /**
+         *
+         */
         sleepTrackerViewModel.navigateToSleepDetailQuality.observe(viewLifecycleOwner, Observer { night ->
             night?.let {
+
+
                 this.findNavController().navigate(SleepTrackerFragmentDirections
                         .actionSleepTrackerFragmentToSleepDetailFragment(night))
+
+
                 sleepTrackerViewModel.onSleepDataQualityNavigated()
             }
         })

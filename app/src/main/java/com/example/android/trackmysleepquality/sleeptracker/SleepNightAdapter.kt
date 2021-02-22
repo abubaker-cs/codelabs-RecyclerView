@@ -129,7 +129,9 @@ class SleepNightDiffCallback : DiffUtil.ItemCallback<SleepNight>() {
 
 }
 
-// OnClick Listener for the RecyclerView Items
+/**
+ * OnClick Listener for the a single item in the grid
+ */
 class SleepNightListener(val clickListener: (sleepId: Long) -> Unit) {
     fun onClick(night: SleepNight) = clickListener(night.nightId)
 }
