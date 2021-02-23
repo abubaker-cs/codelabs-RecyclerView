@@ -60,6 +60,18 @@ class SleepTrackerFragment : Fragment() {
 
         // Implementing GridLayout with 3 Columns & Binding the new layout manager to our list.
         val manager = GridLayoutManager(activity, 3, GridLayoutManager.VERTICAL, false)
+
+        // Determine how many spans to use for each item in the list
+        manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+
+            override fun getSpanSize(position: Int) = when (position) {
+                // Position 0 should have a span size of 3. The others should have a span size of 1.
+                0 -> 3
+                else -> 1
+            }
+
+        }
+
         binding.sleepList.layoutManager = manager
 
         // Create an instance of the ViewModel Factory.
