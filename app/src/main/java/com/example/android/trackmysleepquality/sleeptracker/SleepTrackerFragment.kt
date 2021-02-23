@@ -104,7 +104,8 @@ class SleepTrackerFragment : Fragment() {
                 // To update the list, we will use RecyclerView's API and rely on submitList()
                 // It will run the DiffUtil and apply any necessary changes
                 // Then ListAdapter will update the items shown by RecyclerView
-                adapter.submitList(it)
+                // adapter.submitList(it)
+                adapter.addHeaderAndSubmitList(it)
             }
         })
 
