@@ -26,8 +26,7 @@ import kotlinx.coroutines.withContext
 // class SleepNightAdapter : RecyclerView.Adapter<SleepNightAdapter.ViewHolder>() {
 
 
-// Constants for Data Types
-
+// Constants for different View Types
 private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
 
@@ -35,7 +34,6 @@ private val ITEM_VIEW_TYPE_ITEM = 1
  * Issue: Currently our constuctor is only allowed to use only 1 type of the viewHolder,
  * class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<SleepNight, SleepNightAdapter.ViewHolder>(SleepNightDiffCallback()) {
  */
-
 
 /**
  * We will change the constructor so it can support multiple ViewHolders
@@ -50,28 +48,45 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
     // override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
 
-    // We will not be blocking UI
-    private val adapterScope = CoroutineScope(Dispatchers.Default)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         // return ViewHolder.from(parent)
 
         return when (viewType) {
+
+            // Returns Header based on header.xml file
+            // It depends on: "companion object" inside the
+            // "class TextViewHolder(view: View) : RecyclerView.ViewHolder(view)"
             ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
+
+            // Returns ViewHolder for Single row of data
+            // It depends on: "companion object" inside the
+            // class ViewHolder private constructor(val binding: ListItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root) {
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
+
+            // Error Handling
             else -> throw ClassCastException("Unknown viewType ${viewType}")
         }
 
     }
 
-    // It will return the right header or item constant depending on the type of the current item
+    // Checks which type of item should be returned?
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
+
+            // Returns HEADER
             is DataItem.Header -> ITEM_VIEW_TYPE_HEADER
+
+            // Returns DATA for the ROW
             is DataItem.SleepNightItem -> ITEM_VIEW_TYPE_ITEM
+
+            // Error Handling
             else -> throw ClassCastException("Unknown position ${position}")
         }
     }
+
+    // We will not be blocking UI
+    private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     fun addHeaderAndSubmitList(list: List<SleepNight>?) {
         adapterScope.launch {
@@ -172,14 +187,23 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
     }
 
 
+    // It will inflate the header.xml layout file and return an instance of TextViewHolder
     class TextViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
         companion object {
             fun from(parent: ViewGroup): TextViewHolder {
+
+                // We are establishing current CONTEXT
                 val layoutInflater = LayoutInflater.from(parent.context)
+
+                // Reference to our res/layout/header.xml file
                 val view = layoutInflater.inflate(R.layout.header, parent, false)
+
+                // Returns the instance of TextViewHolder
                 return TextViewHolder(view)
             }
         }
+
     }
 
 }
@@ -223,19 +247,26 @@ class SleepNightListener(val clickListener: (sleepId: Long) -> Unit) {
 }
 
 /**
- * For Second Header
+ * Sealed Class (Closed Type)
+ * It means that all sub-classes of it must be defined in this file.
+ * This ensure that the total number of subclasses are known to the compiler.
  */
 sealed class DataItem {
 
+    // We are here declaring the type fo id variable
     abstract val id: Long
 
-    //
+    // Data Type - SleepNight
+    // It is a wrapper around a SleepNight as it Contains list of the actual data
     data class SleepNightItem(val sleepNight: SleepNight) : DataItem() {
         override val id = sleepNight.nightId
     }
 
-    //
+    // It will contain reference to our custom header
+    // We are using Object as there will be only 1 instance of Header and it will not contain any data
     object Header : DataItem() {
+        // We are using .MIN_VALUE so due to nature of its less amount,
+        // so it can never conflict with unique nightID keys
         override val id = Long.MIN_VALUE
     }
 
