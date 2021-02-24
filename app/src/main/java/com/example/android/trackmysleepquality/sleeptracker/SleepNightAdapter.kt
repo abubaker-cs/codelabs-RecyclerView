@@ -52,6 +52,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
 
         // return ViewHolder.from(parent)
 
+        // Conditional Return
         return when (viewType) {
 
             // Returns Header based on header.xml file
@@ -59,7 +60,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
             // "class TextViewHolder(view: View) : RecyclerView.ViewHolder(view)"
             ITEM_VIEW_TYPE_HEADER -> TextViewHolder.from(parent)
 
-            // Returns ViewHolder for Single row of data
+            // Returns ViewHolder for a Single row of data
             // It depends on: "companion object" inside the
             // class ViewHolder private constructor(val binding: ListItemSleepNightBinding) : RecyclerView.ViewHolder(binding.root) {
             ITEM_VIEW_TYPE_ITEM -> ViewHolder.from(parent)
@@ -91,10 +92,17 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
     fun addHeaderAndSubmitList(list: List<SleepNight>?) {
         adapterScope.launch {
             val items = when (list) {
+
+                // If the record is a the 0-index
                 null -> listOf(DataItem.Header)
+
+                // If the record is not at the 0-index, then populate the list in RecylerView
                 else -> listOf(DataItem.Header) + list.map { DataItem.SleepNightItem(it) }
+
             }
+
             withContext(Dispatchers.Main) {
+                // It is a feature provided by the ListAdapter
                 submitList(items)
             }
         }
@@ -104,19 +112,24 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
     // It requires the VIEW in which data will be PLACED, and the POSITION of ROW from INCOMING data
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-
+        // Conditional Statement
         when (holder) {
-            // is RecyclerView.ViewHolder
+
+            // Only assign data to the ViewHolder if the holder is of a ViewHolder type,
+            // i.e. it contains the DATA and it does not have any refence to the header.xml file
             is ViewHolder -> {
                 // Actual POSITION of the ROW in the INCOMING data
                 // val item = getItem(position)
                 // holder.bind(item!!, clickListener)
 
+                // Cast the object returned type by getItem() as DataItem.SleepNightItem
                 val nightItem = getItem(position) as DataItem.SleepNightItem
+
+                // Binds the Data for the row
+                // It depends on our information retrieved from sleepNight in our sealed class
                 holder.bind(nightItem.sleepNight, clickListener)
 
             }
-
 
         }
     }
@@ -209,7 +222,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
 }
 
 // This top-level class extends DiffUtil.ItemCallback<>()
-// We are using SleepNight as a generic parameter
+// We are using DataItem as a generic parameter
 
 // class SleepNightDiffCallback : DiffUtil.ItemCallback<SleepNight>() {
 
