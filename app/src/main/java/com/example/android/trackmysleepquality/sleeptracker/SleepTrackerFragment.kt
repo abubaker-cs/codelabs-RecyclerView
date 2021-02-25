@@ -65,9 +65,13 @@ class SleepTrackerFragment : Fragment() {
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
 
             override fun getSpanSize(position: Int) = when (position) {
-                // Position 0 should have a span size of 3. The others should have a span size of 1.
+
+                // Item in 0-index position should have a span size of 3.
                 0 -> 3
+
+                // Items in other indexes should have a span size of 1.
                 else -> 1
+
             }
 
         }
@@ -100,7 +104,6 @@ class SleepTrackerFragment : Fragment() {
 
         // We are now associating Adapter to the RecyclerView
         binding.sleepList.adapter = adapter
-
 
         // To use the View Model with data binding, you have to explicitly
         // give the binding object a reference to it.

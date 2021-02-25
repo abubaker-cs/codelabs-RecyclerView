@@ -86,10 +86,13 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
         }
     }
 
-    // We will not be blocking UI
+    // Instead of running our rendering function on the Main UI Thread, we are taking
+    // advantage of Coroutines to handle rendering ViewHolders and process data on other threads.
     private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     fun addHeaderAndSubmitList(list: List<SleepNight>?) {
+
+        // Wrapper for our Coroutine's function
         adapterScope.launch {
             val items = when (list) {
 
@@ -106,6 +109,7 @@ class SleepNightAdapter(val clickListener: SleepNightListener) : ListAdapter<Dat
                 submitList(items)
             }
         }
+
     }
 
     // onBindViewHolder() is used to create a single instance of a ROW
