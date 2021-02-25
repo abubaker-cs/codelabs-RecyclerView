@@ -64,6 +64,7 @@ class SleepTrackerFragment : Fragment() {
         // Determine how many spans to use for each item in the list
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
 
+            // It returns the correct spans size for items at different index positions
             override fun getSpanSize(position: Int) = when (position) {
 
                 // Item in 0-index position should have a span size of 3.
